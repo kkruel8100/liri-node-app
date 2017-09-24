@@ -1,7 +1,7 @@
 {
   "name": "liri-node-app",
   "version": "1.0.0",
-  "description": "Liri is a command line node app that takes in parameters from the user and gives back data",
+  "description": "LIRI will be a command line node app that takes in parameters from user and give back data",
   "main": "liri.js",
   "dependencies": {
     "node-spotify-api": "^1.0.7",
