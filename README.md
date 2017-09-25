@@ -16,6 +16,3 @@ My-tweets: Will display the last 20 tweets of the twitter user name entered.<br 
 Spotify-this-song: Will display information from song name.<br />
 Movie-this: Will display information from movie name.<br />
 Do-what-it-says:  Will display information from a text file.<br />
-
-Advanced Feature Added:
-Log user input and program output to file
