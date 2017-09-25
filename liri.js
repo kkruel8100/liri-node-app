@@ -14,7 +14,6 @@ var appRequest = process.argv[2];
 var nodeArgs = process.argv;
 
 var userRequest = "";
-
 // capture user input after the application request position [2] and turn into string for query searches
 for (var i = 3; i < nodeArgs.length; i++) {
   if (i > 3 && i < nodeArgs.length) {
@@ -23,31 +22,34 @@ for (var i = 3; i < nodeArgs.length; i++) {
     userRequest = nodeArgs[i];
   }
 }
+
+whichApp(appRequest);
 // capture user application request
-switch (appRequest) {
-  case "spotify-this-song":
-    spotifySong();
-    break;
+function whichApp(appRequest) {
+  switch (appRequest) {
+    case "spotify-this-song":
+      spotifySong(userRequest);
+      break;
 
-  case "my-tweets":
-    myTweets();
-    break;
+    case "my-tweets":
+      myTweets(userRequest);
+      break;
 
-  case "movie-this":
-    movieThis();
-    break;
+    case "movie-this":
+      movieThis(userRequest);
+      break;
 
-  case "do-what-it-says":
-    doWhat();
-    break;
+    case "do-what-it-says":
+      doWhat();
+      break;
 
-  default:
-    console.log("Please enter valid app.");
-    break;
+    default:
+      console.log("Please enter valid app.");
+      break;
+  }
 }
-
 // default: Ace of Base
-function spotifySong() {
+function spotifySong(userRequest) {
   spotifyAPI.search({ type: 'track', query: userRequest }, function(err, data) {
     // if error show default
     if (err) {
@@ -82,7 +84,7 @@ function songDisplay(requestSong) {
 }
 
 // request gets 20 tweets - show last 20 tweets (or number of tweets created if less than 20) and when they were created
-function myTweets() {
+function myTweets(userRequest) {
   var client = new twitter(keys.twitterKeys);
   var params = { screen_name: userRequest };
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
@@ -99,7 +101,7 @@ function myTweets() {
 }
 
 // default: Mr. Nobody
-function movieThis() {
+function movieThis(userRequest) {
   var movieUrl = "http://www.omdbapi.com/?t=" + userRequest + "&y=&plot=short&apikey=" + keys.omdbKey;
   request(movieUrl, function(error, response, body) {
     if (!error && response.statusCode === 200) {
@@ -159,35 +161,10 @@ function doWhat() {
       return console.log(err);
     }
 
-    // Break the string down by comma separation and store the contents into the output array.
+    // Break the string down by comma separation and store the contents into the output array.  Replace quotes with blanks for twitter because invalid user errors
     var output = data.split(",");
     var appRequest = output[0];
-    console.log("App is " + appRequest);
-    var userRequest = output[1];
-    console.log(userRequest);
-
-    // switch (appRequest) {
-    //   case "spotify-this-song":
-    //     console.log(userRequest);
-    //     spotifySong(userRequest);
-    //     break;
-
-    //   case "my-tweets":
-    //     myTweets(userRequest);
-    //     break;
-
-    //   case "movie-this":
-    //     movieThis(userRequest);
-    //     break;
-    // }
+    userRequest = String(output[1]).replace(/"/g, "");
+    whichApp(appRequest);
   });
 }
-
-
-
-
-
-// Bonus
-// Output data to both bash window and log.txt
-// Append each command to log.txt
-// Do not overwrite file
